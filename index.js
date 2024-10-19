@@ -10,7 +10,10 @@ const {app, server}=require("./socket/socketIndex");
 
 app.use(cors({
     origin: process.env.FRONTEND_URL,
-    credentials: true
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    preflightContinue: false,
+    optionsSuccessStatus: 204
 }));
 
 app.use(express.json());
