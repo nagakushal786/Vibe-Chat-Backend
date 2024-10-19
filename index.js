@@ -8,13 +8,22 @@ const {app, server}=require("./socket/socketIndex");
 
 // const app=express();
 
-app.use(cors({
-    origin: process.env.FRONTEND_URL,
+const corsOptions = {
+    origin: function (origin, callback) {
+        const allowedOrigins = [process.env.FRONTEND_URL];
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     preflightContinue: false,
     optionsSuccessStatus: 204
-}));
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
